@@ -1154,16 +1154,20 @@ from django.utils.timezone import now
 from django.utils.timesince import timesince
 
 def csrf_failure_view(request, *args, **kwargs):
-
-
     #return HttpResponse(f"<h1>Error CSRF</h1><p>El formulario ha sido rechazado por intentar realizar una operación no segura.</p><script>setTimeout(function() {{ window.location.href = '/'; }}, 5000);</script>", content_type='text/html')
 
-    return redirect('/')
+    tipo = "de CRSF"
+    #mensaje = "El formulario ha sido rechazado por intentar realizar una operación no segura."
+    return render(request, "vista_error.html", {'tipo': tipo})
 
 from django.http import HttpResponseServerError
 from django.shortcuts import redirect
 
 def custom_server_error(request):
-    return redirect('/')
+    tipo = "500"
+    return render(request, "vista_error.html", {'tipo': tipo})
+
 def custom_bad_request(request, exception):
-    return redirect('/')
+    tipo = "400"
+    exception = str(exception)
+    return render(request, "vista_error.html", {'tipo': tipo, 'exception': exception})
