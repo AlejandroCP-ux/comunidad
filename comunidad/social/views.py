@@ -44,7 +44,6 @@ def inicio(request):
     comunidades_totales = set(comunidades_publicas) | set(comunidades_privadas)
 
 
-
     # Obtener los perfiles que el usuario sigue
     seguidos = profile.seguidos.all()
 
@@ -1168,6 +1167,6 @@ def custom_server_error(request):
     return render(request, "vista_error.html", {'tipo': tipo})
 
 def custom_bad_request(request, exception):
-    tipo = "400"
+    tipo = "404"
     exception = str(exception)
     return render(request, "vista_error.html", {'tipo': tipo, 'exception': exception})

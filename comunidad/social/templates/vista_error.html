@@ -17,11 +17,11 @@
             {% if tipo == "de CRSF" %}
               <p class="card-text">El formulario ha sido rechazado por intentar realizar una operación no segura.</strong></p>
             {% endif %}
-            {% if tipo == "400" %}
-              <p class="card-text">ESCRIBE ALGO AQUI ALE.</strong></p>
+            {% if tipo == "404" %}
+              <p class="card-text">La direccion solicitada es incorrecta</strong></p>
             {% endif %}
             {% if tipo == "500" %}
-              <p class="card-text">ESCRIBE ALGO AQUI ALE.</strong></p>
+              <p class="card-text"></strong>Error interno del servidor</p>
             {% endif %}
         </div>
     </div>
@@ -84,5 +84,3 @@
     margin: 10px 0;
   }
 </style>
-
-
