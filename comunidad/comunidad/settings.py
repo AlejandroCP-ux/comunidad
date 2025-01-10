@@ -172,3 +172,6 @@ TAILWIND_APP_NAME = 'theme'
 SESSION_COOKIE_AGE = 6000
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Cierra la sesión al cerrar el navegador
 SESSION_SAVE_EVERY_REQUEST = True
+CSRF_FAILURE_VIEW = 'social.views.csrf_failure_view'
+handler500 = 'social.views.custom_server_error'
+handler400 = 'social.views.custom_bad_request'

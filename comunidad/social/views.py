@@ -1146,3 +1146,24 @@ def no_me_gusta(request,tematica):
     perfil_usuario.no_gusta(tematica)
     previous_url = request.META.get('HTTP_REFERER', '/')
     return redirect(previous_url)
+
+# social/views.py
+
+from django.http import HttpResponse
+from django.utils.timezone import now
+from django.utils.timesince import timesince
+
+def csrf_failure_view(request, *args, **kwargs):
+
+
+    #return HttpResponse(f"<h1>Error CSRF</h1><p>El formulario ha sido rechazado por intentar realizar una operación no segura.</p><script>setTimeout(function() {{ window.location.href = '/'; }}, 5000);</script>", content_type='text/html')
+
+    return redirect('/')
+
+from django.http import HttpResponseServerError
+from django.shortcuts import redirect
+
+def custom_server_error(request):
+    return redirect('/')
+def custom_bad_request(request, exception):
+    return redirect('/')
