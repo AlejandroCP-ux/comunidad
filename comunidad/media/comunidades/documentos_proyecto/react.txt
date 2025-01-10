@@ -1,0 +1,11 @@
+primero, respondeme en mi idioma, ahora lo importante, mira, tengo un proyecto (todavia incompleto) cuyo backend esta siendo creado con django, inicialmente estabamos haciendo el frontend utilizando las ventajas que brinda django para esto con sus html extendidos, supongo entiendas... pero resulta que al cliente no le gusto que hagamos la interfaz con django porque es "rustica", entonces decidimos hacer el frontend con react (con vite) y no queremos hacer la parte del frontend de 0, queremos "migrar" lo que hicimos con los html de django a una version mejorada, superior, mas moderna, estetica, vanguardista y que no se vea como si fuera solo html+css, que utilice cosas actuales, no se si me vas entendiendo, tonces lo que te quiero pedir es que me ayudes con este proceso tan tedioso para mi (porque soy mas de backend), dime si aceptas para empezar el proceso y comenzar a mandarte, poco a poco, cada una de las vistas, urls y html de cada funcionalidad ya implementada, ten en cuenta y no olvides que el trabajo pesado quiero que se mantenga (como hasta ahora) del lado de django, react lo quiero solo para que, manteniendo todas las funcionalidades que tengan los html, utilices tu libertad creativa con los diseños bien bonito que se que sabes hacer, puedes con el reto?
+
+
+Necesito el código completo en Kotlin, sin omitir nada, para crear una APK Android con Android Studio en Linux. Esta aplicación debe ser capaz de conectarse con una base de datos de Odoo 16 en internet utilizando un usuario y contraseña específicos. Uno de los módulos de Odoo es el de calendario, y de este quiero que la aplicación tome el último evento creado y muestre en pantalla el nombre y la fecha del evento. Además, necesito que se incluya todo el proceso de conexión con esta base de datos para saber, si hay algún error, dónde ocurre el problema. No quiero que se omita nada del proceso de creación de esta aplicación.
+
+Detalles adicionales:
+
+    No tengo preferencias sobre la versión de Android, pero mi SDK tiene la versión 34 y el Gradle la 8.7.
+    La aplicación debe mostrar en pantalla cualquier error que ocurra, con la información más precisa posible sobre por qué ocurrió y dónde está el problema.
+    La aplicación debe ser lo más simple posible en un principio.
+
