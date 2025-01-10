@@ -13,7 +13,7 @@ class PerfilUsuarioInline(admin.StackedInline):
     model = PerfilUsuario
     can_delete = False
     verbose_name_plural = 'Perfil de Usuario'
-    readonly_fields= ('no_me_gusta',)
+    readonly_fields= ('no_me_gusta','seguidos')
 class CustomUserAdmin(UserAdmin):
     inlines = (PerfilUsuarioInline,)
 
