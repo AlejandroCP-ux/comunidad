@@ -1,0 +1,532 @@
+{% load bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ comunidad.nombre }} - Detalle de Comunidad</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'images/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        main {
+            max-width: 95%;
+            margin-top: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+        }
+
+        .community-header {
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .community-banner {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 20px;
+        }
+
+        .community-content {
+            display: flex;
+            align-items: left;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .community-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .community-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .community-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .community-divider {
+            width: 100%;
+            border: 1px solid #fcc350;
+            height: 1px;
+            background: #ddd;
+            margin: 10px 0;
+        }
+
+        .community-description {
+            margin-bottom: 15px;
+        }
+
+        .boton-comunidad {
+            align-self: flex-end;
+            margin-top: auto;
+        }
+
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+
+        .publications-section {
+            width: 62%;
+            margin-left: 2px;
+            margin-right: 2px;
+        }
+
+        .sidebar-right {
+            width: 16%;
+        }
+
+        .sidebar-left {
+            width: 19%;
+        }
+
+        .publication {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            border:2px solid #fcc350 !important;
+
+        }
+
+        .publication-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .member-item{
+            margin-bottom: 2px;
+        }
+
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .author-info {
+            flex-grow: 1;
+        }
+
+        .author-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .publication-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .publication-content {
+            margin-bottom: 15px;
+        }
+
+        .publication-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comment {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 98%;
+        }
+
+        textarea {
+            height: 60px;
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 10px;
+            resize: vertical;
+            border-radius: 5px;
+        }
+
+        .title{
+            text-align: center;
+        }
+
+        .boton-condicional{
+            color: #0056b3;
+            background-color: #e7e7e7;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton-condicional:hover {
+            background-color: #ddd;
+        }
+
+        .scroll-to-top-btn {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            z-index: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: transparent;
+            border: none;
+        }
+
+        .scroll-to-top-btn img {
+            max-width: 55px;
+            max-height: 55px;
+            object-fit: contain;
+        }
+
+        .dorado{
+            border:2px solid #fcc350 !important;
+        }
+
+        body a{
+            text-decoration: none;
+        }
+
+        .community-tag {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            width: fit-content;
+            max-width: 90%;
+        }
+    </style>
+</head>
+{%include 'header.html'%}
+<body>
+    <main>
+        <button class="scroll-to-top-btn" id="scroll-to-top-btn" title="Ir arriba">
+            <img src="{% static 'images/subir.svg' %}" alt="Ir arriba" >
+        </button>
+        <div class="community-header dorado" id="community-header">
+            {% if comunidad.banner %}
+            <img src="{{ comunidad.banner.url }}" alt="Banner de la comunidad" class="community-banner dorado">
+            {% endif %}
+            <div class="community-content">
+                {% if comunidad.foto_perfil %}
+                <img src="{{ comunidad.foto_perfil.url }}" alt="Foto de la comunidad" class="community-photo dorado">
+                {% endif %}
+                <div class="community-info">
+                    <h1 class="community-name">{{ comunidad.nombre }}</h1>
+                    <hr class="community-divider">
+                    <p  class="community-description">{{ comunidad.descripcion }}</p>
+                    <p class="community-tag text-muted">Temáticas: {{ tematicas }}</p>
+                </div>
+
+                <div class="boton-comunidad" style="min-width: max-content;">
+                    {% if not is_superuser %}
+                    {% if es_miembro %}
+                        <div style="margin-bottom: 1px">
+                        <a href="{% url 'chat_comunidad' comunidad.slug %}" class="action-button bg-primary">Chat de la comunidad</a>
+                        </div>
+                        <br>
+                        {% if not es_admin %}
+                        <div style="margin-top: 1px">
+                            <a href="{% url 'salir_comunidad' comunidad.slug %}" class="action-button boton-condicional">Salir de la comunidad</a>
+                        </div>
+                        {% else %}
+                        <div style="margin-top: 1px">
+                            <a href="http://localhost:8000/admin" class="action-button boton-condicional">Administrar comunidad</a>
+                        </div>
+                     {% endif %}
+                    {% elif not es_miembro and comunidad.publica %}
+                    <div style="margin-bottom: 1px">
+                        <a href="{% url 'unirse_comunidad' comunidad.slug %}" class="action-button">Unirse a la comunidad</a>
+                    </div>
+                    {% else %}
+                    <div style="margin-bottom: 1px">
+                        <a href="{% url 'solicitar_membresia' comunidad.slug %}" class="action-button">Solicitar unirse a la comunidad</a>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="community-content">
+
+            {% if es_miembro or comunidad.publica or is_superuser  %}
+
+            <div class="sidebar-left">
+
+                <div class="publication">
+                    <h3>Campañas</h3>
+                    <hr class="community-divider">
+                    {% if hay %}
+                    {% for campaign in campaigns|slice:":5" %}
+                    {% if campaign.desafio.activada %}
+                    <div class="project-item">
+                        <a href="{% url 'detalle_campaign' campaign.slug %}">
+                        {% if campaign.tipo == 'donacion' %}
+                            <img src="{% static 'images/donate.svg' %}" alt="Icono" class="icono-svg" style="height: 30px; width: 30px;">
+                        {% else %}
+                            <img src="{% static 'images/vote.svg' %}" alt="Icono" class="icono-svg" style="height: 30px; width: 30px;">
+                        {% endif %}
+                            <span class="h4">{{ campaign.desafio.titulo }}</span>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% empty %}
+                        <p>No hay campañas para mostrar.</p>
+                    {% endfor %}
+                    {% else %}
+                        <p>No hay campañas para mostrar.</p>
+                    {% endif %}
+                    <br>
+                    <div >
+                        {% if not campaigns.count == 0 and hay %}
+                        <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_campaigns' comunidad.slug %}" class="action-button boton-condicional">Ver Todas</a>
+                        {% endif %}
+                        {% if es_admin or es_crowdsourcer and not is_superuser %}
+                            <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="action-button">Crear campaña</a>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <h3>Proyectos</h3>
+                    <hr class="community-divider">
+                    {% for proyecto in proyectos.all|slice:":5" %}
+                        <div class="project-item">
+                            <a href="{% url 'detalle_proyecto' proyecto.slug %}">
+                                <h4>{{ proyecto }}</h4>
+                            </a>
+                        </div>
+                    {% empty %}
+                        <p>No hay proyectos para mostrar.</p>
+                    {% endfor %}
+                    <br>
+
+                    <div>
+                        {% if not proyectos.count == 0 %}
+                        {% if es_miembro or is_superuser or es_admin %}
+                        <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_proyectos' comunidad.slug %}" class="action-button boton-condicional">Ver Todos</a>
+                        {% endif %}
+                        {% endif %}
+                        {% if es_miembro %}
+                        <a style="display: flex; justify-content: center;" href="{% url 'crear_proyecto' comunidad.slug %}" class="action-button">Publicar proyecto</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="publications-section">
+                <div class="publication text-center">
+                    <h2 class="title fw-bold">Publicaciones Recientes</h2>
+                    <hr class="community-divider">
+                    {% if es_miembro %}
+                    <br>
+                    <a href="{% url 'crear_publicacion' comunidad.slug %}" class="action-button" style="">Crear Publicación</a>
+                    {% endif %}
+                </div>
+                <div class="publication">
+                    <p class="fw-bold text-center title">Filtrar por temática:</p>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <a style="color: blue;" href="{% url 'detalle_comunidad' comunidad.slug %}" class="btn {% if filtro_actual == 'todas' %}btn-active{% endif %} me-2">Todas</a>
+                        {% for tematica in mis_tematicas %}
+                            <a style="color: blue;" href="{% url 'detalle_comunidad' comunidad.slug %}?filtro={{tematica.nombre}}" class="btn {% if filtro_actual == '{{tematica.nombre}}' %}btn-active{% endif %} me-2 mb-2">{{tematica.nombre}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if publicaciones %}
+
+                    {% for pub in publicaciones %}
+                        <div class="publication">
+                            <div class="publication-header">
+                                {% if pub.autor.perfilusuario.foto_perfil %}
+                                    <img src="{{ pub.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
+                                {% endif %}
+                                <div class="author-info">
+                                    <a href="{% url 'perfil_usuario' pub.autor.username %}" class="author-name">{{ pub.autor.first_name }} {{ pub.autor.last_name }}</a>
+                                    <span class="publication-date">{{ pub.fecha_publicacion|date:"d/m/Y H:i:s" }}</span>
+                                </div>
+                            </div>
+
+                            <div class="publication-content">
+                            <p>{{ pub.contenido }}</p>
+                            <div style=" display: grid;place-items: center; height: 100%; ">
+                                {% if pub.imagen %}
+                                    <img src="{{ pub.imagen.url }}" alt="Imagen de publicación" style="max-width: 100%; height: auto;">
+                                {% endif %}
+                            </div>
+
+                            {% if pub.tematica.pk in no_me_gustan %}
+                            <p class="text-muted community-tag">Este tipo de contenido no te aparecerá más.</p>
+                            {% else %}
+                            <div class="mt-4">
+                                <a href="{% url 'no_me_gusta' pub.tematica.pk %}" class="btn btn-danger">No me interesa este contenido</a>
+                            </div>
+                            {% endif %}
+                            </div>
+
+                            <div class="publication-actions">
+                                <button onclick="mostrarComentarios({{ pub.id }})" class="action-button">
+                                    <span class="comment-count">{{ pub.comentarios.count }} Comentarios</span>
+                                </button>
+                            </div>
+
+                            <div id="comentarios-{{ pub.id }}" style="display: none;">
+                                {% for comentario in pub.comentarios.all %}
+                                    <div class="comment" id="comment{{ comentario.id }}">
+                                        <div class="author-info">
+                                            <a href="{% url 'perfil_usuario' comentario.autor.username %}" class="author-name">
+                                                {% if comentario.autor.perfilusuario.foto_perfil %}
+                                                    <img src="{{ comentario.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
+                                                {% endif %}
+                                                {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}
+                                            </a>
+                                        </div>
+                                        <p>{{ comentario.contenido }}</p>
+                                        <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
+                                    </div>
+                                {% endfor %}
+                                <form action="{% url 'crear_comentario' pub.id %}" method="post">
+                                    {% csrf_token %}
+                                    <textarea name="contenido" placeholder="Escribe un comentario..."></textarea>
+                                    <button type="submit" class="action-button">Enviar</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No hay publicaciones para mostrar.</p>
+                {% endif %}
+            </div>
+
+            <div class="sidebar-right">
+                <div class="publication">
+                    <h3>Miembros ({{ comunidad.miembros.count }})</h3>
+                    <hr class="community-divider">
+
+                    <div class="member-item">
+                        {% if comunidad.administrador.perfilusuario.foto_perfil %}
+                        <div class="author-info">
+                            <img src="{{ comunidad.administrador.perfilusuario.foto_perfil.url }}" alt="Foto de {{ comunidad.administrador.username }}" class="profile-picture">
+                        {% endif %}
+                            <a href="{% url 'perfil_usuario' comunidad.administrador.username %}" class="author-name">{{ comunidad.administrador.first_name }} {{ comunidad.administrador.last_name }}</a>
+                            <span class="admin-badge" style="color: #ef32f9;">- Admin</span>
+                        </div>
+                    </div>
+
+                    {% for miembro in comunidad.miembros.all|slice:":12" %}
+                    {% if not miembro == comunidad.administrador %}
+                        <div class="member-item">
+                            {% if miembro.perfilusuario.foto_perfil %}
+                            <div class="author-info">
+                                <img href="{% url 'perfil_usuario' miembro.username %}" src="{{ miembro.perfilusuario.foto_perfil.url }}" alt="Foto de {{ miembro.username }}" class="profile-picture">
+                            {% endif %}
+                                <a href="{% url 'perfil_usuario' miembro.username %}" class="author-name">{{ miembro.first_name }} {{ miembro.last_name }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                    <br>
+                    <a style="display: flex; justify-content: center;" href="{% url 'lista_miembros' comunidad.slug %}" class="action-button boton-condicional">Ver Todos</a>
+                </div>
+            </div>
+
+            {% else %}
+            <div style="min-height:100vh; flex: 1">
+            <div class="publication" style="width:100%">
+                <h2 class="title fw-bold">Esta comunidad no es pública</h2>
+            </div>
+            <div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <script>
+        function mostrarComentarios(publicacionId) {
+            var comentariosDiv = document.getElementById('comentarios-' + publicacionId);
+            if (comentariosDiv.style.display === 'none') {
+                comentariosDiv.style.display = 'block';
+            } else {
+                comentariosDiv.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+
+            // Function to toggle button visibility
+            function toggleButtonVisibility() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            }
+
+            // Initial call to set button visibility
+            toggleButtonVisibility();
+
+            // Add scroll event listener
+            window.addEventListener('scroll', toggleButtonVisibility);
+
+            // Add click event listener to the button
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% include 'footer.html' %}

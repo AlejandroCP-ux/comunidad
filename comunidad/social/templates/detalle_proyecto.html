@@ -1,0 +1,177 @@
+{% load static %}
+<!doctype html>
+<html lang="es" data-bs-theme="auto">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        main{
+          flex: 1;
+          margin-top: 20px;
+        }
+        body {
+            background-color: #f8f9fa;
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,.1);
+        }
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .dorado{
+          border:2px solid #fcc350 !important;
+        }
+        .community-divider {
+          width: 100%;
+          border: 1px solid #fcc350;
+          height: 1px;
+          background: #ddd;
+          margin: 10px 0;
+        }
+        .comment {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 98%;
+        }
+
+        textarea {
+            height: 60px;
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 10px;
+            resize: vertical;
+            border-radius: 5px;
+        }
+        .community-tag {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            width: fit-content;
+            max-width: 90%;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <main>
+    <div class="container mt-5">
+        <div class="card dorado">
+            <div class="card-body">
+                <h1 class="card-title fw-bold text-center">Proyecto {{ proyecto.titulo }}</h1>
+                <hr class="community-divider">
+                {% if yo %}
+                <div class="text-center mt-4">
+                    <a href="{% url 'editar_proyecto' proyecto.slug  %}" class="btn btn-success">Editar proyecto</a>
+                </div>
+                <br>
+                {% endif %}
+                {% if proyecto.imagenes %}
+                <img src="{{ proyecto.imagenes.url }}" class="card-img-top" alt="{{ proyecto.titulo }}" style="max-width: 100%; height: auto;">
+                {% endif %}
+                {% if proyecto.documentos %}
+                    <a href="{{ proyecto.documentos.url }}" class="link-body-emphasis fw-bold"><img src="{% static '/images/download.svg' %}" alt="PDF" width="30" height="30" style="object-fit: cover; border-radius: 50%;"> Descargar Adjunto</a>
+                {% endif %}
+                <p style="margin-top: 20px;"><strong>Creado por:</strong>
+                  <a href="{% url 'perfil_usuario' proyecto.creador.username %}">
+                    {% if not proyecto.creador.perfilusuario.foto_perfil == "static/images/default-avatar.svg" %}
+                      <img src="{{ proyecto.creador.perfilusuario.foto_perfil.url }}" alt="Foto de perfil de {{ proyecto.creador.username }}" width="30" height="30" style="object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                      <img src="{% static '/images/default-avatar.svg' %}" alt="Foto de perfil de {{ proyecto.creador.username }}" width="30" height="30" style="object-fit: cover; border-radius: 50%;">
+                    {% endif %}
+                      <span class="texto">{{ proyecto.creador.first_name }} {{ proyecto.creador.last_name }}</span>
+                    </a>
+                </p>
+                <p><strong>Fecha de creación:</strong> {{ proyecto.fecha_creacion }}</p>
+                <p><strong>Descripción:</strong> {{ proyecto.descripcion }}</p>
+                <p><strong>Comunidad:</strong> <a href="{% url 'detalle_comunidad' proyecto.comunidad.slug %}" class="">{{ proyecto.comunidad }}</a></p>
+                {% if no_me_gusta %}
+                <p class="text-muted community-tag">Este tipo de contenido no te aparecerá más.</p>
+                {% else %}
+                <div class="mt-4">
+                    <a href="{% url 'no_me_gusta' proyecto.tematica.pk %}" class="btn btn-danger">No me interesa este contenido</a>
+                </div> 
+                {% endif %}
+
+                <br>
+                <div class="publication-actions">
+                    <button onclick="mostrarComentarios({{ proyecto.id }})" class="action-button btn btn-primary">
+                        <span class="comment-count">{{ proyecto.comentarios.count }} Comentarios</span>
+                    </button>
+                </div>
+                <br>
+                <div id="comentarios-{{ proyecto.id }}" style="display: none;">
+                    {% for comentario in proyecto.comentarios.all %}
+                        <div class="comment" id="comment{{ comentario.id }}">
+                            <div class="author-info">
+                                <a href="{% url 'perfil_usuario' comentario.autor.username %}" class="author-name">
+                            {% if comentario.autor.perfilusuario.foto_perfil.url %}
+                                <img src="{{ comentario.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
+                            {% endif %}
+                            {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}</a>
+                            </div>
+                            <p>{{ comentario.contenido }}</p>
+                            <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
+                        </div>
+                    {% endfor %}
+                    <form action="{% url 'crear_comentario_pro' proyecto.id %}" method="post">
+                        {% csrf_token %}
+                        <textarea name="contenido" id="content" placeholder="Escribe un comentario..."></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'detalle_comunidad' proyecto.comunidad.slug  %}" class="btn btn-primary">Volver</a>
+    </div>
+    <br>
+    </main>
+    {% include 'footer.html' %}
+</body>
+</html>
+<script>
+
+    function mostrarComentarios(proyectoId) {
+        var comentariosDiv = document.getElementById('comentarios-' + proyectoId);
+        if (comentariosDiv.style.display === 'none') {
+            comentariosDiv.style.display = 'block';
+        } else {
+            comentariosDiv.style.display = 'none';
+        }
+    }
+  </script>

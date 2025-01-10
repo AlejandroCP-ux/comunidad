@@ -1,0 +1,131 @@
+/* static/css/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 2rem;
+}
+
+.chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chat-messages {
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message.sent {
+    text-align: right;
+    color: #0066cc;
+}
+
+.message.received {
+    text-align: left;
+    color: #cc0000;
+}
+
+.chat-input {
+    display: flex;
+}
+
+.chat-input input {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.chat-input button {
+    padding: 5px 10px;
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.foto-perfil {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.menu-container ul li a {
+  position: relative;
+}
+
+.menu-container ul li a .tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.menu-container ul li a:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu-container ul li a .tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+}
+.menu-container ul li a .texto {
+    display: none;
+  }
+  
+  .menu-container ul li a:hover .texto {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .menu {
+    height: 300px; /* establece un alto fijo de 300px */
+    overflow-y: auto; /* agrega una barra de desplazamiento vertical si el contenido es más grande que el alto fijo */
+  }

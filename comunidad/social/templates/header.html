@@ -1,0 +1,153 @@
+{% load static %}
+
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #745bc1; border-bottom:2px solid #fcc350 !important;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'inicio' %}"><img src="{% static 'images/logoRed2.png' %}" alt="" width="30" height="30" style="margin-right: 5px;" class="d-inline-block align-text-top">Inicio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'images/comunidad1.svg' %}" alt="Icono" class="icono-svg">Comunidades
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item text-center" href="{% url 'lista_comunidades' %}"><img src="{% static 'images/allcommunities.svg' %}" alt="Icono" class="icono-svg">Ver Comunidades</a></li>
+            <hr class="dropdown-divider">
+            <li><a class="dropdown-item text-center" href="{% url 'crear_comunidad' %}"><img src="{% static 'images/newcommunity.svg' %}" alt="Icono" class="icono-svg">Solicitar Comunidad</a></li>
+          </ul>
+        </li>
+          <li class="nav-item"><a href="{% url 'ranking' %}" class="nav-link active"><img src="{% static 'images/ranking1.svg' %}" alt="Icono" class="icono-svg"><i class="fas fa-ranking-star"></i><span class="texto">Ranking</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link active"><img src="{% static 'images/marketplace1.svg' %}" alt="Icono" class="icono-svg"><i class="fas"></i><span class="texto">Marketplace</span></a></li>
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link active"><img src="{% static 'images/logout1.svg' %}" alt="Icono" class="icono-svg"><i class="fas fa-sign-out-alt"></i><span class="texto">Cerrar Sesión</span></a></li>
+        {% else %}
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link active"><img src="{% static 'images/login1.svg' %}" alt="Icono" class="icono-svg"><i class="fas fa-sign-in-alt"></i><span class="texto">Iniciar Sesión</span></a></li>
+          <li class="nav-item"><a href="{% url 'register' %}" class="nav-link active"><img src="{% static 'images/register1.svg' %}" alt="Icono" class="icono-svg"><i class="fas fa-user-plus"></i><span class="texto">Registrarse</span></a></li>
+        {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+        <li class="nav-item" style="color: #745bc1;">
+          <a href="{% url 'perfil_usuario' user.username %}">
+          {% if not user.perfilusuario.foto_perfil == "static/images/default-avatar.svg" %}
+            <img src="{{ user.perfilusuario.foto_perfil.url }}" alt="Foto de perfil de {{ user.username }}" width="30" height="30" style="object-fit: cover; border-radius: 50%;">
+          {% else %}
+            <img src="{% static '/images/default-avatar.svg' %}" alt="Foto de perfil de {{ user.username }}" width="30" height="30" style="object-fit: cover; border-radius: 50%;">
+          {% endif %}
+            <span class="texto">{{ user.first_name }} {{ user.last_name }}</span>
+            </a>
+          {% endif %}
+        </li>
+        <form class="d-flex" action="{% url 'buscar' %}" method="get" style="padding: 0;">
+          <input class="form-control me-2" type="search" name="q" placeholder="Buscar..." aria-label="Buscar">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>
+
+{% include 'aceptar_terminos.html' %}
+
+<style>
+
+  body {
+    background-image: url("{% static 'images/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+  }
+  body a{
+    text-decoration: none;
+  }
+
+  .icono-svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  header {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    top: 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-expand {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $next: breakpoint-next($breakpoint, $grid-breakpoints);
+    $infix: breakpoint-infix($next, $grid-breakpoints);
+
+    // stylelint-disable-next-line scss/selector-no-union-class-name
+    &#{$infix} {
+      @include media-breakpoint-up($next) {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+
+        .navbar-nav {
+          flex-direction: row;
+
+          .dropdown-menu {
+            position: absolute;
+          }
+
+          .nav-link {
+            padding-right: $navbar-nav-link-padding-x;
+            padding-left: $navbar-nav-link-padding-x;
+          }
+        }
+
+        .navbar-nav-scroll {
+          overflow: visible;
+        }
+
+        .navbar-collapse {
+          display: flex !important; // stylelint-disable-line declaration-no-important
+          flex-basis: auto;
+        }
+
+        .navbar-toggler {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+</style>
+

@@ -1,0 +1,455 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tu Plataforma Social</title>
+    <style>
+
+        body {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'images/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        main {
+            max-width: 80%;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .publication {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .publication-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .author-info {
+            flex-grow: 1;
+        }
+
+        .author-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .publication-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .community-tag {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .publication-content {
+            margin-bottom: 15px;
+        }
+
+        .publication-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+
+        .action-button i {
+            margin-right: 5px;
+        }
+
+        #comentarios-{{ pub.id }} {
+            margin-top: 15px;
+        }
+
+        .comment {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 98%;
+        }
+
+        .comment h4 {
+            margin-top: 0;
+        }
+
+        .comment small {
+            color: #888;
+        }
+
+        textarea {
+            height: 60px;
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 10px;
+            resize: vertical;
+            border-radius: 5px;
+        }
+
+        .title{
+            text-align: center;
+        }
+
+        .countdown-container {
+            background: linear-gradient(145deg, white, white);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contador {
+            background: linear-gradient(90deg, #5ceaf6, #ef32f9, #5ceaf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .countdown {
+                font-size: 1.5rem;
+            }
+        }
+
+        .dorado{
+            border:2px solid #fcc350 !important;
+        }
+
+        .scroll-to-top-btn {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            z-index: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: transparent;
+            border: none;
+        }
+
+        .scroll-to-top-btn img {
+            max-width: 55px;
+            max-height: 55px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+{% include 'header.html' %}
+
+<body>
+
+    <div>
+        <img src="{% static 'images/banner2.png' %}" style="width: 100%" class="img-fluid" alt="banner">
+    </div>
+
+    <!-- Contenido principal -->
+    <main>
+
+        {% if is_superuser %}
+        <div class="text-center mt-1">
+            <a href="{% url 'admin:index' %}" class="btn btn-primary fw-bold h3">Administrar sitio</a>
+        </div>
+        <br>
+        {% endif %}
+
+        <div class="publication dorado">
+            <h1 class="title fw-bold">Principales servicios que ofrecemos</h1>
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                      01. Campañas de desafíos
+                    </button>
+                  </h2>
+                  <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Valida tus proyectos en el mercado a través de donaciones o donativos, con recompensas.</div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        02. Actividades
+                    </button>
+                  </h2>
+                  <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Participa en diversas actividades en las temáticas a fines de la comunidad para compartir proyectos, ideas, lanzar campañas y hacer networking.</div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        03. Espacio de Colaboración
+                    </button>
+                  </h2>
+                  <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Crea tu propio espacio de colaboración para proyectos empresariales y Desarrollo Local con uso de la ciencia.</div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                          04. Apoyo a la Comunidad
+                      </button>
+                    </h2>
+                    <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">Recibe apoyo y feedback de la comunidad para tus proyectos.</div>
+                    </div>
+                  </div>
+              </div>
+        </div>
+
+
+        <button class="scroll-to-top-btn" id="scroll-to-top-btn" title="Ir arriba">
+            <img src="{% static 'images/subir.svg' %}" alt="Ir arriba" >
+        </button>
+        <div class="container mt-5 primero">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-lg dorado">
+                        <div class="card-body text-center ">
+                            {% if concursos %}
+                            <h1 class="card-title mb-4 fw-bold">Concurso Activo: <a href="{% url 'concurso_resultados' %}">
+                                {{ concurso.nombre }}
+
+                                <span style="font-size: large;"> Ver más</span><img src="{% static 'images/more.svg' %}" style="width: 40px; height: auto;" alt="Icono" class="icono-svg"></a></h1>
+                            <div class="countdown-container p-4 bg-light rounded dorado" id="cuadrito">
+                                <div id="contador" class="contador display-4 text-primary fw-bold"></div>
+                            </div>
+                            {% else %}
+                            <h1 class="card-title mb-4 fw-bold">No hay concursos activos</h1>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="publication dorado">
+        <h1 class="title fw-bold">Proyectos Recientes</h1>
+        </div>
+
+        {% if proyectos %}
+            {% for pro in proyectos %}
+                <div class="publication dorado">
+                    <div class="publication-header">
+                        {% if pro.creador.perfilusuario.foto_perfil %}
+                        {% if pro.creador.perfilusuario.foto_perfil.url %}
+                            <img src="{{ pro.creador.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
+                        {% endif %}
+                        {% endif %}
+                        <div class="author-info">
+                            <a href="{% url 'perfil_usuario' pro.creador.username %}" class="author-name">{{ pro.creador.first_name }} {{ pro.creador.last_name }}</a>
+                            <span class="publication-date">{{ pro.fecha_publicacion|date:"d/m/Y H:i:s" }}</span>
+                        </div>
+                    </div>
+
+                    {% if pro.comunidad %}
+                        <p class="community-tag">Publicado en <a href="{% url 'detalle_comunidad' pro.comunidad.slug %}" class="author-name">{{ pro.comunidad.nombre }}</a></p>
+                    {% endif %}
+
+                    <div class="publication-content" >
+
+                        <h4 class="fw-bold" >Nombre del Proyecto: <a href="{% url 'detalle_proyecto' pro.slug %}" >{{ pro.titulo }}</a> </h4>
+                        <h5>Descripción: <a>{{ pro.descripcion }}</a><h5>
+                        <div style=" display: grid;
+                        place-items: center;
+                        height: 100%; ">
+                        </div>
+                      <!--
+                        <div>
+                        {% if pro.imagenes %}
+                        <a href="{{ pro.imagenes.url }}" class="link-body-emphasis fw-bold"><img src="{% static '/images/download.svg' %}" alt="PDF" width="30" height="30" style="object-fit: cover; border-radius: 50%;"> Descargar Imagen</a>
+                        {% endif %}
+                        </div>
+                        {% if pro.documentos %}
+                            <div>
+                        <a href="{{ pro.documentos.url }}" class="link-body-emphasis fw-bold"><img src="{% static '/images/download.svg' %}" alt="PDF" width="30" height="30" style="object-fit: cover; border-radius: 50%;"> Descargar Adjunto</a>
+
+                            </div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="publication-actions">
+                        <button onclick="mostrarComentarios({{ pro.id }})" class="action-button">
+                            <span class="comment-count">{{ pro.comentarios.count }} Comentarios</span>
+                        </button>
+                    </div>
+                    <br>
+                    <div id="comentarios-{{ pro.id }}" style="display: none;">
+                        {% for comentario in pro.comentarios.all %}
+                            <div class="comment" id="comment{{ comentario.id }}">
+                                <div class="author-info">
+                                    <a href="{% url 'perfil_usuario' comentario.autor.username %}" class="author-name">
+                                {% if comentario.autor.perfilusuario.foto_perfil.url %}
+                                    <img src="{{ comentario.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
+                                {% endif %}
+                                {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}</a>
+                                </div>
+                                <p>{{ comentario.contenido }}</p>
+                                <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
+                            </div>
+                        {% endfor %}
+                        <form action="{% url 'crear_comentario_pro' pro.id %}" method="post">
+                            {% csrf_token %}
+                            <textarea name="contenido" id="content" placeholder="Escribe un comentario..."></textarea>
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                    -->
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No hay proyectos para mostrar.</p>
+        {% endif %}
+
+        <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="terminos-b" style="display: none;">
+        </a>
+
+
+    </main>
+</body>
+
+{% include 'footer.html' %}
+
+    <script>
+        function getCookie(name) {
+            let value = "; " + document.cookie;
+            let parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").pop();
+        }
+
+        function mostrarComentarios(proyectoId) {
+            var comentariosDiv = document.getElementById('comentarios-' + proyectoId);
+            if (comentariosDiv.style.display === 'none') {
+                comentariosDiv.style.display = 'block';
+            } else {
+                comentariosDiv.style.display = 'none';
+            }
+        }
+
+        // Obtener las fechas del concurso
+        var fechaInicio = new Date("{{ concurso.fecha_inicio|date:'Y-m-d' }}");
+        var fechaFin = new Date("{{ concurso.fecha_fin|date:'Y-m-d' }}");
+
+        function actualizarContador() {
+            var ahora = new Date();
+            var tiempoRestante;
+
+            if ("{{concurso.ganador.first_name}}"!="") {
+                tiempoRestante = "El ganador es: \n{{concurso.ganador.first_name}}"+" {{concurso.ganador.last_name}}"
+              } else if (ahora > fechaFin) {
+                tiempoRestante = "Concurso finalizado";
+            } else if (ahora < fechaInicio) {
+                tiempoRestante = "Concurso aún no ha comenzado";
+            } else {
+                var diferencia = fechaFin - ahora;
+                var dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+                var horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+                var segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+                tiempoRestante = dias + " días, " + horas + " horas, " + minutos + " minutos, " + segundos + " segundos restantes";
+            }
+
+            document.getElementById('contador').innerHTML = tiempoRestante;
+        }
+
+        // Actualizar el contador cada segundo
+        setInterval(actualizarContador, 1000);
+
+        // Llamar a la función inmediatamente para evitar el retraso inicial
+        actualizarContador();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+
+            // Function to toggle button visibility
+            function toggleButtonVisibility() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            }
+
+            // Initial call to set button visibility
+            toggleButtonVisibility();
+
+            // Add scroll event listener
+            window.addEventListener('scroll', toggleButtonVisibility);
+
+            // Add click event listener to the button
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</html>

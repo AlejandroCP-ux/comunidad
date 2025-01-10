@@ -1,0 +1,46 @@
+{% load static %}
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ desafio.titulo }} - Hubinab Reward</title>
+</head>
+<body>
+<main>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h1 class="card-title text-center fw-bold">{{ desafio.titulo }}</h1>
+            <p class="card-text">Creado por: <strong>{{ desafio.creador.username }}</strong></p>
+            <p class="card-text">Fecha de inicio: <strong>{{ desafio.fecha_inicio|date:"d/m/Y" }}</strong></p>
+            <p class="card-text">Fecha de fin: <strong>{{ desafio.fecha_fin|date:"d/m/Y" }}</strong></p>
+            <p class="card-text">{{ desafio.descripcion }}</p>
+            <p class="card-text">Comunidad: 
+                <a href="{% url 'detalle_comunidad' desafio.comunidad.pk %}" class="text-primary">
+                    {{ desafio.comunidad.nombre }}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+</main>
+</body>
+</html>
+{% include 'header.html' %}
+{% include 'footer.html' %}
+<style>
+  body {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main{
+    flex: 1;
+  }
+</style>
+
+

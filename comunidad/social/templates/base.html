@@ -1,0 +1,221 @@
+{% load static %}
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tu Plataforma Social</title>
+    <style>
+
+        body {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'images/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        main {
+            max-width: 80%;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+        }
+        
+        .publication {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        
+        .publication-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .author-info {
+            flex-grow: 1;
+        }
+        
+        .author-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .publication-date {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .community-tag {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .publication-content {
+            margin-bottom: 15px;
+        }
+        
+        .publication-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .action-button i {
+            margin-right: 5px;
+        }
+        
+        #comentarios-{{ pub.id }} {
+            margin-top: 15px;
+        }
+        
+        .comment {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 98%;
+        }
+        
+        .comment h4 {
+            margin-top: 0;
+        }
+        
+        .comment small {
+            color: #888;
+        }
+        
+        textarea {
+            height: 60px;
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 10px;
+            resize: vertical;
+            border-radius: 5px;
+        }
+
+        .title{
+            text-align: center;
+        }
+
+        .countdown-container {
+            background: linear-gradient(145deg, white, white);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    
+        .contador {
+            background: linear-gradient(90deg, #5ceaf6, #ef32f9, #5ceaf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+    
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .countdown {
+                font-size: 1.5rem;
+            }
+        }
+
+        .dorado{
+            border:2px solid #fcc350 !important;
+        }
+
+        .scroll-to-top-btn {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            z-index: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: transparent; 
+            border: none;
+        }
+        
+        .scroll-to-top-btn img {
+            max-width: 55px;
+            max-height: 55px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container mt-5 primero">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                  <h1 class="card-title mb-4 fw-bold" style="display: flex; justify-content: center;">{% if is_superuser %}No existen términos de uso{% else %}Sitio en Manteniento{% endif %}</h1>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          {% if is_superuser %}
+            <a href="{% url 'admin:index' %}social/terminoscondiciones/add/" class="btn btn-primary">Crear términos y condiciones de uso</a>
+          {% else %}
+            <a href="{% url 'logout' %}" class="btn btn-primary">Volver</a>
+          {% endif %}
+        </div>
+    </main> 
+</body>
+
+
+</html>

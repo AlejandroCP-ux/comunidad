@@ -1,0 +1,83 @@
+{% load static %}
+{% load bootstrap5 %}
+
+{% include 'header.html' %}
+<head>
+
+
+<style>
+  body {
+        margin-top: 80px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      padding: 0;
+      height: 100%; /* Asegúrate de que el html y el body ocupen el 100% de la altura */
+  }
+  
+  .card {
+      background: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente para la tarjeta */
+      border-radius: 10px; /* Bordes redondeados */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para un efecto de profundidad */
+  }
+
+  .card-title {
+      color: #007bff; /* Color de texto azul para el título */
+  }
+  main {
+      flex: 1; /* Permite que la sección principal crezca y ocupe el espacio restante */
+      flex-direction: column;
+      min-height: 100vh;    
+  }
+</style>
+</head>
+<body>
+
+  <!-- Contenido principal -->
+  <main>
+
+<div class="ranking-page">
+    <div class="container mt-5">
+        <h1 class="text-center fw-bold">Ranking de Usuarios</h1>
+
+        <!-- Formulario para seleccionar el rango de fechas -->
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    {{ form.fecha_inicio.label }} {{ form.fecha_inicio }}
+                </div>
+                <div class="col">
+                    {{ form.fecha_fin.label }} {{ form.fecha_fin }}
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Ver Ranking</button>
+                </div>
+            </div>
+        </form>
+
+        <ol class="list-group list-group-flush">
+            {% for entry in ranking %}
+                <li class="list-group-item">
+                    <a href="{% url 'perfil_usuario' entry.user__username %}">
+                        {{ entry.user__username }}
+                        {{ entry.user__first_name }} 
+                    </a> - {{ entry.total_puntos }} puntos 
+                </li>
+            {% empty %}
+                <li class="list-group-item">No hay usuarios en el ranking para este rango de fechas.</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <!-- Botón para ver concursos actuales -->
+    {% if concursos %}
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" onclick="window.location.href='{% url 'concurso_resultados' %}'">Ver Concursos Actuales</button>
+    </div>
+    {% endif %}
+</div>
+</main>
+</body>
+{% include 'footer.html' %}
