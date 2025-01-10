@@ -88,6 +88,7 @@
         .boton-comunidad {
             align-self: flex-end;
             margin-top: auto;
+            
         }
 
         .action-button {
@@ -255,14 +256,14 @@
                 {% if comunidad.foto_perfil %}
                 <img src="{{ comunidad.foto_perfil.url }}" alt="Foto de la comunidad" class="community-photo dorado">
                 {% endif %}
-                <div class="community-info">
+                <div class="community-info" style="margin: 10px">
                     <h1 class="community-name">{{ comunidad.nombre }}</h1>
                     <hr class="community-divider">
                     <p  class="community-description">{{ comunidad.descripcion }}</p>
                     <!--<p class="community-tag text-muted">Temáticas: {{ tematicas }}</p>-->
+                    
                 </div>
-
-                <div class="boton-comunidad" style="min-width: max-content;">
+                <div class="boton-comunidad" style="min-width: min-width;">
                     {% if not is_superuser %}
                     {% if es_miembro %}
                         <div style="margin-bottom: 1px">
@@ -477,18 +478,21 @@
                     <a style="display: flex; justify-content: center;" href="{% url 'lista_miembros' comunidad.slug %}" class="action-button boton-condicional">Ver Todos</a>
                 </div>
             
+                
                 <div class="publication">
                     <h3>Temáticas</h3>
                     <hr class="community-divider">
-
-                    {% for tematica in mis_tematicas %}
+                    {% if mis_tematicas %}
+                        {% for tematica in mis_tematicas %}
                         <div class="member-item">
-                            {% if miembro.perfilusuario.foto_perfil %}
                             <div class="author-info">
                                 <p>{{tematica}}</p>
                             </div>
                         </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No hay temáticas para mostrar.</p>
+                    {% endif %}
                 </div>
             </div>
 
