@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-6 fw-bold">
                         <label for="descripcion mb-5 ">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" rows="4" class="form-control">{{ proyecto.descripcion }}</textarea>
+                        <textarea id="descripcion" name="descripcion" rows="4" class="form-control">{{ proyecto.descripcion|linebreaksbr|safe }}</textarea>
                     </div>
                     <div class="col-md-6 fw-bold">
                         <label for="imagenes">Imagen:</label>

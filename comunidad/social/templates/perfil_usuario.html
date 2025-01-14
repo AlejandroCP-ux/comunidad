@@ -94,7 +94,7 @@
                 <div class="col-md-9">
                     <h1 class="profile-name">{{ usuario.first_name }} {{ usuario.last_name }}</h1>
                     <hr class="community-divider">
-                    <p class="profile-info"><i class="fas fa-info-circle"></i> Biografía:  {{ perfil.biografia }}</p>
+                    <p class="profile-info"><i class="fas fa-info-circle"></i> Biografía:  {{ perfil.biografia|linebreaksbr|safe }}</p>
                     <!--
                     <p class="profile-info"><i class="fas fa-user-tag"></i> Rol: {{ perfil.rol }}</p>
                     -->

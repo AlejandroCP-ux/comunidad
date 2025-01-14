@@ -240,6 +240,10 @@
             width: fit-content;
             max-width: 90%;
         }
+        .paradinos{
+            display: inline-block;
+            text-align: center;
+        }
     </style>
 </head>
 {%include 'header.html'%}
@@ -263,29 +267,29 @@
                     <!--<p class="community-tag text-muted">Temáticas: {{ tematicas }}</p>-->
                     
                 </div>
-                <div class="boton-comunidad" style="min-width: min-width;">
+                <div class="boton-comunidad">
                     {% if not is_superuser %}
                     {% if es_miembro %}
                         <div style="margin-bottom: 1px">
-                        <a href="{% url 'chat_comunidad' comunidad.slug %}" class="action-button bg-primary">Chat de la comunidad</a>
+                        <a style="min-width: 195px;" href="{% url 'chat_comunidad' comunidad.slug %}" class="paradinos action-button bg-primary">Chat de la comunidad</a>
                         </div>
                         <br>
                         {% if not es_admin %}
-                        <div style="margin-top: 1px">
-                            <a href="{% url 'salir_comunidad' comunidad.slug %}" class="action-button boton-condicional">Salir de la comunidad</a>
+                        <div style="min-width: 195px;margin-top: 1px">
+                            <a href="{% url 'salir_comunidad' comunidad.slug %}" class="paradinos action-button boton-condicional">Salir de la comunidad</a>
                         </div>
                         {% else %}
-                        <div style="margin-top: 1px">
-                            <a href="http://localhost:8000/admin" class="action-button boton-condicional">Administrar comunidad</a>
+                        <div style="min-width: 195px;margin-top: 1px">
+                            <a href="http://localhost:8000/admin" class="paradinos action-button boton-condicional">Administrar comunidad</a>
                         </div>
                      {% endif %}
                     {% elif not es_miembro and comunidad.publica %}
-                    <div style="margin-bottom: 1px">
-                        <a href="{% url 'unirse_comunidad' comunidad.slug %}" class="action-button">Unirse a la comunidad</a>
+                    <div style="min-width: 195px;margin-bottom: 1px">
+                        <a href="{% url 'unirse_comunidad' comunidad.slug %}" class="paradinos action-button">Unirse a la comunidad</a>
                     </div>
                     {% else %}
-                    <div style="margin-bottom: 1px">
-                        <a href="{% url 'solicitar_membresia' comunidad.slug %}" class="action-button">Solicitar unirse a la comunidad</a>
+                    <div style="min-width: 195px;margin-bottom: 1px">
+                        <a href="{% url 'solicitar_membresia' comunidad.slug %}" class="paradinos action-button">Solicitar unirse a la comunidad</a>
                     </div>
                     {% endif %}
                     {% endif %}
@@ -328,10 +332,10 @@
                     <br>
                     <div >
                         {% if not campaigns.count == 0 and hay %}
-                        <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_campaigns' comunidad.slug %}" class="action-button boton-condicional">Ver Todas</a>
+                        <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_campaigns' comunidad.slug %}" class="paradinos action-button boton-condicional">Ver Todas</a>
                         {% endif %}
                         {% if es_admin or es_crowdsourcer and not is_superuser %}
-                            <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="action-button">Crear campaña</a>
+                            <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="paradinos action-button">Crear campaña</a>
                         {% else %}
                         {% endif %}
                     </div>
@@ -354,11 +358,11 @@
                     <div>
                         {% if not proyectos.count == 0 %}
                         {% if es_miembro or is_superuser or es_admin %}
-                        <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_proyectos' comunidad.slug %}" class="action-button boton-condicional">Ver Todos</a>
+                        <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_proyectos' comunidad.slug %}" class="paradinos boton-condicional">Ver Todos</a>
                         {% endif %}
                         {% endif %}
                         {% if es_miembro %}
-                        <a style="display: flex; justify-content: center;" href="{% url 'crear_proyecto' comunidad.slug %}" class="action-button">Publicar proyecto</a>
+                        <a style="display: flex; justify-content: center;" href="{% url 'crear_proyecto' comunidad.slug %}" class="paradinos action-button">Publicar proyecto</a>
                         {% endif %}
                     </div>
                 </div>
@@ -370,7 +374,7 @@
                     <hr class="community-divider">
                     {% if es_miembro %}
                     <br>
-                    <a href="{% url 'crear_publicacion' comunidad.slug %}" class="action-button" style="">Crear Publicación</a>
+                    <a href="{% url 'crear_publicacion' comunidad.slug %}" class="paradinos action-button" style="display: inline-block">Crear Publicación</a>
                     {% endif %}
                 </div>
                 <div class="publication">
@@ -397,7 +401,7 @@
                             </div>
 
                             <div class="publication-content">
-                            <p>{{ pub.contenido }}</p>
+                            <p>{{ pub.contenido|linebreaksbr|safe }}</p>
                             <div style=" display: grid;place-items: center; height: 100%; ">
                                 {% if pub.imagen %}
                                     <img src="{{ pub.imagen.url }}" alt="Imagen de publicación" style="max-width: 100%; height: auto;">
@@ -414,7 +418,7 @@
                             </div>
 
                             <div class="publication-actions">
-                                <button onclick="mostrarComentarios({{ pub.id }})" class="action-button">
+                                <button onclick="mostrarComentarios({{ pub.id }})" class="paradinos action-button">
                                     <span class="comment-count">{{ pub.comentarios.count }} Comentarios</span>
                                 </button>
                             </div>
@@ -430,14 +434,14 @@
                                                 {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}
                                             </a>
                                         </div>
-                                        <p>{{ comentario.contenido }}</p>
+                                        <p>{{ comentario.contenido|linebreaksbr|safe }}</p>
                                         <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
                                     </div>
                                 {% endfor %}
                                 <form action="{% url 'crear_comentario' pub.id %}" method="post">
                                     {% csrf_token %}
                                     <textarea name="contenido" placeholder="Escribe un comentario..."></textarea>
-                                    <button type="submit" class="action-button">Enviar</button>
+                                    <button type="submit" class="paradinos action-button">Enviar</button>
                                 </form>
                             </div>
                         </div>
@@ -452,7 +456,7 @@
                     <h3>Miembros ({{ comunidad.miembros.count }})</h3>
                     <hr class="community-divider">
 
-                    <div class="member-item">
+                    <div class="paradinos member-item">
                         {% if comunidad.administrador.perfilusuario.foto_perfil %}
                         <div class="author-info">
                             <img src="{{ comunidad.administrador.perfilusuario.foto_perfil.url }}" alt="Foto de {{ comunidad.administrador.username }}" class="profile-picture">
@@ -475,7 +479,7 @@
                     {% endif %}
                     {% endfor %}
                     <br>
-                    <a style="display: flex; justify-content: center;" href="{% url 'lista_miembros' comunidad.slug %}" class="action-button boton-condicional">Ver Todos</a>
+                    <a style="display: flex; justify-content: center;" href="{% url 'lista_miembros' comunidad.slug %}" class="paradinos action-button boton-condicional">Ver Todos</a>
                 </div>
             
                 

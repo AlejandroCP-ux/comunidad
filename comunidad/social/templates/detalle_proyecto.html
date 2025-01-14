@@ -116,7 +116,7 @@
                     </a>
                 </p>
                 <p><strong>Fecha de creación:</strong> {{ proyecto.fecha_creacion }}</p>
-                <p><strong>Descripción:</strong> {{ proyecto.descripcion }}</p>
+                <p><strong>Descripción:</strong> {{ proyecto.descripcion|linebreaksbr|safe }}</p>
                 <p><strong>Comunidad:</strong> <a href="{% url 'detalle_comunidad' proyecto.comunidad.slug %}" class="">{{ proyecto.comunidad }}</a></p>
                 {% if no_me_gusta %}
                 <p class="text-muted community-tag">Este tipo de contenido no te aparecerá más.</p>
@@ -143,7 +143,7 @@
                             {% endif %}
                             {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}</a>
                             </div>
-                            <p>{{ comentario.contenido }}</p>
+                            <p>{{ comentario.contenido|linebreaksbr|safe }}</p>
                             <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
                         </div>
                     {% endfor %}
