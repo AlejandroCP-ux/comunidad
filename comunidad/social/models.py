@@ -136,7 +136,7 @@ class Desafio(models.Model):
     premio = models.ForeignKey(Premio, on_delete=models.CASCADE,default=None, null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='likes_desafios', blank=True)
     slug = models.SlugField(default="", null=False)
-    activada = models.BooleanField(default=False)
+    activada = models.BooleanField(default=True)
 
     def total_likes(self):
         return self.likes.count()
@@ -420,7 +420,7 @@ class ResultadoConcurso(models.Model):
     fecha_resultado = models.DateField()
 
 class Campaña(models.Model):
-    activa = models.BooleanField(default=True)
+    activa = models.BooleanField(default=False)
     desafio = models.OneToOneField(Desafio, on_delete=models.CASCADE)
     slug = models.SlugField(default="")
 

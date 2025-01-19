@@ -6,7 +6,7 @@ from pyexpat.errors import messages
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout as logout_user
 from django.db.models import Q,Sum,Avg
 import requests
 from .models import *
@@ -202,7 +202,7 @@ def detalle_comunidad(request, slug):
         campaigns= campaigns.exclude(desafio__tipo_desafio='donacion')
 
     hay = False
-    if campaigns.filter(activa=True).count() > 0:
+    if campaigns.filter(activa=True, desafio__activada=True).count() > 0:
         hay = True
 
     return render(request, 'detalle_comunidad.html', {
@@ -1170,3 +1170,9 @@ def custom_bad_request(request, exception):
     tipo = "404"
     exception = str(exception)
     return render(request, "vista_error.html", {'tipo': tipo, 'exception': exception})
+
+@login_required
+def my_logout(request):
+    # Cerrar sesión y redireccionar a la página de inicio
+    logout_user(request)
+    return redirect('inicio')
