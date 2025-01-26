@@ -148,6 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'admin:login'
+LOGIN_URL = '/login/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -166,7 +167,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'cespedesalejandro247@gmail.com'
 EMAIL_HOST_PASSWORD = ' '
 DEFAULT_FROM_EMAIL = 'cespedesalejandro247@gmail.com'
-LOGIN_URL = '/login/'
 
 TAILWIND_APP_NAME = 'theme'
 SESSION_COOKIE_AGE = 6000
