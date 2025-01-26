@@ -335,7 +335,7 @@
                         <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_campaigns' comunidad.slug %}" class="paradinos action-button boton-condicional">Ver Todas</a>
                         {% endif %}
                         {% if es_admin or es_crowdsourcer and not is_superuser %}
-                            <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="paradinos action-button">Crear campaña</a>
+                            <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="paradinos action-button">Solicitar campaña</a>
                         {% else %}
                         {% endif %}
                     </div>
