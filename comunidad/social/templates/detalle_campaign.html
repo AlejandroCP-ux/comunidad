@@ -68,7 +68,7 @@
     <div class="card-footer rounded">
         <form method="post">
             {% csrf_token %}
-            <textarea name="respuesta" placeholder="Escribe tu respuesta..." style="width: 100%; margin-bottom: 15px; margin-top: 10px;"></textarea>
+            <textarea id='descripcion' name="respuesta" placeholder="Escribe tu respuesta..." style="width: 100%; margin-bottom: 15px; margin-top: 10px;"></textarea>
             <div class="align-content-end">
             <button type="submit">Enviar respuesta</button>
             </div>

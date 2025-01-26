@@ -354,7 +354,7 @@
                         {% endfor %}
                         <form action="{% url 'crear_comentario_pro' pro.id %}" method="post">
                             {% csrf_token %}
-                            <textarea name="contenido" id="content" placeholder="Escribe un comentario..."></textarea>
+                            <textarea id='descripcion' name="contenido" id="content" placeholder="Escribe un comentario..."></textarea>
                             <button type="submit">Enviar</button>
                         </form>
                     </div>

@@ -440,7 +440,7 @@
                                 {% endfor %}
                                 <form action="{% url 'crear_comentario' pub.id %}" method="post">
                                     {% csrf_token %}
-                                    <textarea name="contenido" placeholder="Escribe un comentario..."></textarea>
+                                    <textarea id='descripcion' name="contenido" placeholder="Escribe un comentario..."></textarea>
                                     <button type="submit" class="paradinos action-button">Enviar</button>
                                 </form>
                             </div>
