@@ -22,13 +22,13 @@ sudo service redis-server start
 ## Crear tablas en la base de datos de postgresql:
 ```
 cd comunidad/
-python manage.py makemigrations
-python manage.py migrate
+python3 manage.py makemigrations
+python3 manage.py migrate
 ```
 
 ## Ejecutar servidor:
 ```
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 ## Copar el archivo defaults.py en la siguiente dirección:
