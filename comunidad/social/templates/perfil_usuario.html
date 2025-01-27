@@ -94,7 +94,7 @@
                 <div class="col-md-9">
                     <h1 class="profile-name">{{ usuario.first_name }} {{ usuario.last_name }}</h1>
                     <hr class="community-divider">
-                    <p class="profile-info"><i class="fas fa-info-circle"></i> Biografía:  {{ perfil.biografia|linebreaksbr|safe }}</p>
+                    <p class="profile-info"><i class="fas fa-info-circle"></i> Biografía:  {{ perfil.biografia|safe|linebreaksbr }}</p>
                     <!--
                     <p class="profile-info"><i class="fas fa-user-tag"></i> Rol: {{ perfil.rol }}</p>
                     -->
@@ -156,19 +156,18 @@
             </ul>
         </div>
 
-        <!--
         <div class="projects-section dorado">
-            <h2 class="mb-4 fw-bold"><i class="fas fa-project-diagram"></i> Publicaciones</h2>
+            <h2 class="mb-4 fw-bold"><i class="fas fa-project-diagram"></i>Publicaciones</h2>
             <hr class="community-divider">
             <ul class="project-list">
-                {% if not publicaciones == None and count > 0 %}
+                {% if not publicaciones == None and pubcount > 0 %}
                     <li><a href="{% url 'lista_publicaciones' usuario.username %}" class="text-decoration-none">Ver publicaciones</a></li>
                 {% else %}
                     <li>Este usuario no ha creado publicaciones.</li>
                 {% endif %}
             </ul>
         </div>
-        -->
+        
         {% if not yo %}
         <div class="projects-section dorado">
             <h2 class="mb-4 fw-bold"><i class="fas fa-project-diagram"></i> Donaciones</h2>

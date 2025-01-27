@@ -275,7 +275,7 @@ class Publicacion(models.Model):
     autor = models.ForeignKey(User, on_delete=models.CASCADE)
     imagen = models.ImageField(blank=True, null=True, upload_to='publicaciones/imagenes/')
     #archivos = MultiFileField(min_num=1, max_num=5)
-    comunidad = models.ForeignKey('Comunidad', on_delete=models.CASCADE, null=True, blank=True)
+    comunidad = models.ForeignKey(Comunidad, on_delete=models.CASCADE, null=True, blank=True)
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
     tematica = models.ForeignKey(Tematica, on_delete=models.CASCADE, null=True)
 

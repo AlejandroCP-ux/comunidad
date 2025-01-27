@@ -389,6 +389,7 @@ def perfil_usuario(request, username):
     comunidades=Comunidad.objects.filter(miembros=usuario)
     publicaciones = Publicacion.objects.filter(autor=usuario).order_by('-fecha_publicacion')
     pubcount = publicaciones.count()
+    print(pubcount,publicaciones)
     procount = proyectos.count()
     donaciones = DonacionComunidad.objects.filter(donador=request.user).order_by('-fecha_creacion')
     cantidad_donaciones = donaciones.__len__()
@@ -1176,3 +1177,42 @@ def my_logout(request):
     # Cerrar sesión y redireccionar a la página de inicio
     logout_user(request)
     return redirect('inicio')
+
+@login_required
+def editar_comentario_proyecto(request, pk):
+    comentario = ComentarioProyecto.objects.get(pk=pk)
+    slug = comentario.proyecto.slug
+    proyecto = get_object_or_404(Proyecto, slug=slug)
+    form = ComentarioProyectoForm(instance=comentario)
+    if request.method == 'POST':
+        form = ComentarioProyectoForm(request.POST, request.FILES, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('detalle_proyecto', slug=proyecto.slug)
+    return render(request, 'editar_comentario_proyecto.html', {'form': form, 'proyecto': proyecto, 'comentario': comentario})
+
+@login_required
+def editar_comentario_publicacion(request, pk):
+    comentario = Comentario.objects.get(pk=pk)
+    slug = comentario.publicacion.pk
+    publicacion = get_object_or_404(Publicacion, pk=slug)
+    form = ComentarioForm(instance=comentario)
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, request.FILES, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('detalle_comunidad', slug=publicacion.comunidad.slug)
+    return render(request, 'editar_comentario_publicacion.html', {'form': form, 'publicacion': publicacion, 'comentario': comentario})
+
+@login_required
+def editar_publicacion(request, pk):
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    comunidad = Comunidad.objects.get(slug=publicacion.comunidad.slug)
+    tematicas = comunidad.tematica.all()
+    form = PublicacionForm(instance=publicacion)
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST, request.FILES, instance=publicacion)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_publicaciones', publicacion.autor.username)
+    return render(request, 'editar_publicacion.html', {'form': form, 'publicacion': publicacion, 'tematicas': tematicas})

@@ -63,4 +63,7 @@ urlpatterns = [
     path('editar_proyecto/<slug:slug>/', views.editar_proyecto, name='editar_proyecto'),
     path('eliminar_proyecto/<slug:slug>/', views.eliminar_proyecto, name='eliminar_proyecto'),
     path('my_logout/', views.my_logout, name='my_logout'),
+    path('publicacion/comentario/<int:pk>/editar', views.editar_comentario_publicacion, name='editar_comentario_publicacion'),
+    path('proyecto/comentario/<int:pk>/editar', views.editar_comentario_proyecto, name='editar_comentario_proyecto'),
+    path('publicacion/<int:pk>/editar', views.editar_publicacion, name='editar_publicacion'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -132,7 +132,7 @@
                     </a>
                 </p>
                 <p><strong>Fecha de creación:</strong> {{ proyecto.fecha_creacion }}</p>
-                <p><strong>Descripción:</strong> {{ proyecto.descripcion|linebreaksbr|safe }}</p>
+                <p><strong>Descripción:</strong> {{ proyecto.descripcion|safe|linebreaksbr }}</p>
                 <p><strong>Comunidad:</strong> <a href="{% url 'detalle_comunidad' proyecto.comunidad.slug %}" class="">{{ proyecto.comunidad }}</a></p>
                 {% if no_me_gusta %}
                 <p class="text-muted community-tag">Este tipo de contenido no te aparecerá más.</p>
@@ -157,15 +157,19 @@
                             {% if comentario.autor.perfilusuario.foto_perfil.url %}
                                 <img src="{{ comentario.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
                             {% endif %}
-                            {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}</a>
+                            {% if not comentario.autor == request.user %}
+                                {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}
+                            {% else %}
+                                Tú <a href="{% url 'editar_comentario_proyecto' comentario.id %}"><i class="fas fa-edit">Editar</i></a>
+                            {% endif %}</a>
                             </div>
-                            <p>{{ comentario.contenido|linebreaksbr|safe }}</p>
+                            <p>{{ comentario.contenido|safe|linebreaksbr }}</p>
                             <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
                         </div>
                     {% endfor %}
                     <form action="{% url 'crear_comentario_pro' proyecto.id %}" method="post">
                         {% csrf_token %}
-                        <textarea id='descripcion' name="contenido" id="content" placeholder="Escribe un comentario..."></textarea>
+                        <textarea name="contenido" id="content" placeholder="Escribe un comentario..."></textarea>
                         <button type="submit">Enviar</button>
                     </form>
                 </div>

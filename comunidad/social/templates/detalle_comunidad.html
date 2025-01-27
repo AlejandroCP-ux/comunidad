@@ -263,7 +263,7 @@
                 <div class="community-info" style="margin: 10px">
                     <h1 class="community-name">{{ comunidad.nombre }}</h1>
                     <hr class="community-divider">
-                    <p  class="community-description">{{ comunidad.descripcion }}</p>
+                    <p  class="community-description">{{ comunidad.descripcion|safe|linebreaksbr }}</p>
                     <!--<p class="community-tag text-muted">Temáticas: {{ tematicas }}</p>-->
                     
                 </div>
@@ -399,9 +399,9 @@
                                     <span class="publication-date">{{ pub.fecha_publicacion|date:"d/m/Y H:i:s" }}</span>
                                 </div>
                             </div>
-
+                            <p class="community-tag">Temática <a class="author-name">{{ pub.tematica }}</a></p>
                             <div class="publication-content">
-                            <p>{{ pub.contenido|linebreaksbr|safe }}</p>
+                            <p>{{ pub.contenido|safe|linebreaksbr }}</p>
                             <div style=" display: grid;place-items: center; height: 100%; ">
                                 {% if pub.imagen %}
                                     <img src="{{ pub.imagen.url }}" alt="Imagen de publicación" style="max-width: 100%; height: auto;">
@@ -422,8 +422,8 @@
                                     <span class="comment-count">{{ pub.comentarios.count }} Comentarios</span>
                                 </button>
                             </div>
-
-                            <div id="comentarios-{{ pub.id }}" style="display: none;">
+                            <br>
+                            <div id="comentarios-{{ pub.id }}" style="display: none;width: 100%;">
                                 {% for comentario in pub.comentarios.all %}
                                     <div class="comment" id="comment{{ comentario.id }}">
                                         <div class="author-info">
@@ -431,16 +431,21 @@
                                                 {% if comentario.autor.perfilusuario.foto_perfil %}
                                                     <img src="{{ comentario.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
                                                 {% endif %}
-                                                {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}
+                                                {% if not comentario.autor == request.user %}
+                                                    {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}
+                                                {% else %}
+                                                    Tú <a href="{% url 'editar_comentario_publicacion' comentario.id %}"><i class="fas fa-edit">Editar</i></a>
+                                                {% endif %}
                                             </a>
                                         </div>
-                                        <p>{{ comentario.contenido|linebreaksbr|safe }}</p>
+                                        <p>{{ comentario.contenido|safe|linebreaks }}</p>
                                         <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
                                     </div>
                                 {% endfor %}
                                 <form action="{% url 'crear_comentario' pub.id %}" method="post">
                                     {% csrf_token %}
-                                    <textarea id='descripcion' name="contenido" placeholder="Escribe un comentario..."></textarea>
+                                    <textarea name="contenido" placeholder="Escribe un comentario..."></textarea>
+                                    <br>
                                     <button type="submit" class="paradinos action-button">Enviar</button>
                                 </form>
                             </div>

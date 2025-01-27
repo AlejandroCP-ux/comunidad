@@ -17,13 +17,18 @@
                                 {% endif %}
                                 {% endif %}
                                 <div class="author-info">
-                                    <a href="{% url 'perfil_usuario' pub.autor.username %}" class="author-name">{{ pub.autor.first_name }} {{ pub.autor.last_name }}</a>
+                                    <a href="{% url 'perfil_usuario' pub.autor.username %}" class="author-name">{{ pub.autor.first_name }} {{ pub.autor.last_name }}
+                                                {% if pub.autor == request.user %}
+                                                    Tú <a href="{% url 'editar_publicacion' pub.pk %}"><i class="fas fa-edit">Editar</i></a>
+                                                {% endif %}
+                                    </a>
                                     <span class="publication-date">{{ pub.fecha_publicacion|date:"d/m/Y H:i:s" }}</span>
                                 </div>
                             </div>
-                              <p class="community-tag">Publicado en <a href="{% url 'detalle_comunidad' pub.comunidad.slug %}" class="author-name">{{ pub.comunidad.nombre }}</a></p>
+                            <p class="community-tag">Publicado en <a href="{% url 'detalle_comunidad' pub.comunidad.slug %}" class="author-name">{{ pub.comunidad.nombre }}</a></p>
+                            <p class="community-tag">Temática <a class="author-name">{{ pub.tematica }}</a></p>
                             <div class="publication-content">
-                            <p>{{ pub.contenido }}</p>
+                            <p>{{ pub.contenido|safe|linebreaksbr }}</p>
                             <div style=" display: grid;place-items: center;">
                                 {% if pub.imagen %}
                                     <img src="{{ pub.imagen.url }}" alt="Imagen de publicación" style="max-width: 60%; height: auto;">
@@ -36,7 +41,7 @@
                                     <span class="comment-count">{{ pub.comentarios.count }} Comentarios</span>
                                 </button>
                             </div>
-
+                            <br>
                             <div id="comentarios-{{ pub.id }}" style="display: none;">
                                 {% for comentario in pub.comentarios.all %}
                                     <div class="comment" id="comment{{ comentario.id }}">
@@ -45,16 +50,22 @@
                                                 {% if comentario.autor.perfilusuario.foto_perfil %}
                                                     <img src="{{ comentario.autor.perfilusuario.foto_perfil.url }}" alt="Foto de perfil" class="profile-picture">
                                                 {% endif %}
+                                                {% if not comentario.autor == request.user %}
                                                 {{ comentario.autor.first_name }} {{ comentario.autor.last_name }}
+                                                {% else %}
+                                                Tú <a href="{% url 'editar_comentario_publicacion' comentario.id %}"><i class="fas fa-edit">Editar</i></a>
+                                                {% endif %}
                                             </a>
                                         </div>
-                                        <p>{{ comentario.contenido }}</p>
+                                        <p>{{ comentario.contenido|safe|linebreaksbr }}</p>
                                         <small>{{ comentario.fecha_comentario|date:"d/m/Y H:i:s" }}</small>
                                     </div>
                                 {% endfor %}
+                                <br>
                                 <form action="{% url 'crear_comentario_pub' pub.id %}" method="post">
                                     {% csrf_token %}
-                                    <textarea id='descripcion' name="contenido" placeholder="Escribe un comentario..."></textarea>
+                                    <textarea name="contenido" placeholder="Escribe un comentario..."></textarea>
+                                    <br>
                                     <button type="submit" class="action-button">Enviar</button>
                                 </form>
                             </div>

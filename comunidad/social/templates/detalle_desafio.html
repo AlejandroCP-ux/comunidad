@@ -16,7 +16,7 @@
             <p class="card-text">Creado por: <strong>{{ desafio.creador.username }}</strong></p>
             <p class="card-text">Fecha de inicio: <strong>{{ desafio.fecha_inicio|date:"d/m/Y" }}</strong></p>
             <p class="card-text">Fecha de fin: <strong>{{ desafio.fecha_fin|date:"d/m/Y" }}</strong></p>
-            <p class="card-text">{{ desafio.descripcion|linebreaksbr|safe }}</p>
+            <p class="card-text">{{ desafio.descripcion|safe|linebreaksbr }}</p>
             <p class="card-text">Comunidad: 
                 <a href="{% url 'detalle_comunidad' desafio.comunidad.pk %}" class="text-primary">
                     {{ desafio.comunidad.nombre }}

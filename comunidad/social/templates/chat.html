@@ -7,7 +7,7 @@
             {% for mensaje in mensajes %}
                 <div class="message {% if mensaje.emisor == request.user %}sent{% else %}received{% endif %}" data-id="{{ mensaje.id }}">
                     <a href="{% url 'perfil_usuario' mensaje.emisor.username %}" class="author-name">{{ mensaje.emisor.first_name }} {{ mensaje.emisor.last_name }}{% if mensaje.emisor == request.user %} (Yo){% endif %}:</a>
-                    {{ mensaje.contenido|linebreaksbr|safe }}
+                    {{ mensaje.contenido|safe|linebreaksbr }}
                     <small class="message-time">
                         (Enviado: {{ mensaje.fecha_envio|date:"d/m/Y, H:i:s" }})
                         <span class="read-status message-time">
