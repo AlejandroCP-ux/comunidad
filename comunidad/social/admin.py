@@ -295,6 +295,9 @@ class SolicitudCrowuserAdmin(admin.ModelAdmin):
             grupo = Group.objects.get(name='Crowdsourcer')
             grupo.user_set.add(solicitud.usuario.id)
             solicitud.delete()
+            profile = User.objects.get(id=solicitud.usuario.id)
+            profile.is_staff = True
+            profile.save()
         self.message_user(request, "Las solicitudes seleccionadas han sido aceptadas.")
 
     def rechazar_solicitud(self, request, queryset):

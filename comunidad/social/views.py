@@ -38,7 +38,11 @@ def inicio(request):
         tematica__in=temas_comunidades,
         activada=True
     ).distinct()
-    comunidades_publicas = comunidades_relevantes.filter(publica=True)
+
+    comunidades_publicas = Comunidad.objects.filter(
+        activada=True,
+        publica=True
+    ).distinct()
     comunidades_privadas = comunidades_relevantes.filter(publica=False).filter(miembros=request.user)
 
     comunidades_totales = set(comunidades_publicas) | set(comunidades_privadas)

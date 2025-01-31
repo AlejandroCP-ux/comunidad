@@ -334,9 +334,10 @@
                         {% if not campaigns.count == 0 and hay %}
                         <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_campaigns' comunidad.slug %}" class="paradinos action-button boton-condicional">Ver Todas</a>
                         {% endif %}
-                        {% if es_admin or es_crowdsourcer and not is_superuser %}
+                        {% if not is_superuser %}
+                            {% if es_admin or es_crowdsourcer %}    
                             <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="paradinos action-button">Solicitar campaña</a>
-                        {% else %}
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -361,7 +362,7 @@
                         <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_proyectos' comunidad.slug %}" class="paradinos boton-condicional">Ver Todos</a>
                         {% endif %}
                         {% endif %}
-                        {% if es_miembro %}
+                        {% if es_miembro and not es_admin %}
                         <a style="display: flex; justify-content: center;" href="{% url 'crear_proyecto' comunidad.slug %}" class="paradinos action-button">Publicar proyecto</a>
                         {% endif %}
                     </div>

@@ -420,7 +420,7 @@ class ResultadoConcurso(models.Model):
     fecha_resultado = models.DateField()
 
 class Campaña(models.Model):
-    activa = models.BooleanField(default=False)
+    activa = models.BooleanField(default=True)
     desafio = models.OneToOneField(Desafio, on_delete=models.CASCADE)
     slug = models.SlugField(default="")
 
