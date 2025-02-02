@@ -66,4 +66,5 @@ urlpatterns = [
     path('publicacion/comentario/<int:pk>/editar', views.editar_comentario_publicacion, name='editar_comentario_publicacion'),
     path('proyecto/comentario/<int:pk>/editar', views.editar_comentario_proyecto, name='editar_comentario_proyecto'),
     path('publicacion/<int:pk>/editar', views.editar_publicacion, name='editar_publicacion'),
+    path('marketplace/', views.marketplace, name='marketplace'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

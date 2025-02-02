@@ -16,6 +16,10 @@ from django.core.mail import send_mail
 from django.views.generic import ListView
 from django.urls import path
 from .decorators import *
+import jwt
+from django.shortcuts import redirect
+from datetime import datetime,timedelta
+import environ
 
 @requires_login_or_404
 @login_required
@@ -1220,3 +1224,15 @@ def editar_publicacion(request, pk):
             form.save()
             return redirect('lista_publicaciones', publicacion.autor.username)
     return render(request, 'editar_publicacion.html', {'form': form, 'publicacion': publicacion, 'tematicas': tematicas})
+
+def marketplace(request):
+    env = environ.Env()
+    environ.Env.read_env()
+    ENVIRONMENT=env
+    KEY = os.environ.get('KEY')
+    payload = {
+        'username': request.user.username,
+        'exp': datetime.utcnow() + timedelta(minutes=1)  # Expira en 1 minuto
+    }
+    token = jwt.encode(payload, KEY, algorithm='HS256')
+    return redirect(f"http://190.6.81.77/?token={token}")
