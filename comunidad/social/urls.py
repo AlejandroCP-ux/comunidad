@@ -53,7 +53,6 @@ urlpatterns = [
     path('chat-comunidad/<slug:slug>/', views.chat_comunidad, name='chat_comunidad'),
     path('desafio/<slug:slug>/donar/', views.guardar_donacion, name='guardar_donacion'),
     path('editar-perfil/', views.editar_perfil, name='editar_perfil'),
-    path('puntuar-desafio/<int:desafio_id>/<int:punto>/', views.puntuar_desafio, name='puntuar_desafio'),
     path('comunidad/<slug:slug>/unirse/', views.unirse_comunidad, name='unirse_comunidad'),
     path('comunidad/<slug:slug>/solicitar/', views.solicitar_membresia, name='solicitar_membresia'),
     path('solicitar_crowdsourcer/', views.solicitar_crowuser, name='solicitar_crowuser'),

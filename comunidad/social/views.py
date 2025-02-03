@@ -1,25 +1,30 @@
 # views.py
+# Standard Library
 from datetime import datetime, timedelta
 from decimal import Decimal
 import os
-from pyexpat.errors import messages
-from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+
+# Django
+from django.contrib.auth import authenticate, login, logout as logout_user
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate, logout as logout_user
-from django.db.models import Q,Sum,Avg
-import requests
-from .models import *
-from .forms import *
-from .utils import update_user_points, get_clasificacion, is_first_visit
 from django.core.mail import send_mail
-from django.views.generic import ListView
+from django.db.models import Avg, Q, Sum
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
-from .decorators import *
-import jwt
-from django.shortcuts import redirect
-from datetime import datetime,timedelta
+from django.utils.timezone import now
+
+# Third Party
+from channels.generic.websocket import AsyncWebsocketConsumer
 import environ
+import jwt
+import requests
+
+# Local
+from .decorators import *
+from .forms import *
+from .models import *
+from .utils import get_clasificacion, is_first_visit, update_user_points
 
 @requires_login_or_404
 @login_required
@@ -315,27 +320,6 @@ def detalle_desafio(request, slug):
     desafio = get_object_or_404(Desafio, slug=slug)
     return render(request, 'detalle_desafio.html', {'desafio': desafio})
 
-def puntuar_desafio(request, desafio_id, punto):
-    campaign = get_object_or_404(Campaña, id=desafio_id)
-    desafio = campaign.desafio
-
-    puntaje_desafio, created = PuntajeDesafio.objects.update_or_create(
-            desafio=desafio,
-            usuario=request.user,
-            defaults={'puntaje': punto}
-        )
-
-    # Calcula el promedio de puntajes
-    promedio_puntaje = PuntajeDesafio.objects.filter(desafio=desafio).aggregate(Avg('puntaje'))['puntaje__avg'] or 0
-
-    # Actualiza el promedio de puntaje en el modelo Desafio (opcional)
-    desafio.save()
-    if not request.user.is_superuser:
-        accion = Accion.objects.filter(nombre='puntuar desafio').first()
-        update_user_points(request.user.id, accion.id, accion.puntos)
-
-    return redirect('detalle_campaign', slug=slug)
-
 def buscar(request):
     q = request.GET.get('q')
     busqueda = q
@@ -622,8 +606,7 @@ def registrar_publicacion_vista_script(request, publicacion_id):
     registrar_publicacion_vista(request, publicacion_id)
     return HttpResponse('Publicación vista registrada')
 
-from django.http import HttpResponse
-from channels.generic.websocket import AsyncWebsocketConsumer
+
 
 class ChatWS    (AsyncWebsocketConsumer):
     async def connect(self):
@@ -1157,9 +1140,7 @@ def no_me_gusta(request,tematica):
 
 # social/views.py
 
-from django.http import HttpResponse
-from django.utils.timezone import now
-from django.utils.timesince import timesince
+
 
 def csrf_failure_view(request, *args, **kwargs):
     #return HttpResponse(f"<h1>Error CSRF</h1><p>El formulario ha sido rechazado por intentar realizar una operación no segura.</p><script>setTimeout(function() {{ window.location.href = '/'; }}, 5000);</script>", content_type='text/html')
@@ -1168,8 +1149,6 @@ def csrf_failure_view(request, *args, **kwargs):
     #mensaje = "El formulario ha sido rechazado por intentar realizar una operación no segura."
     return render(request, "vista_error.html", {'tipo': tipo})
 
-from django.http import HttpResponseServerError
-from django.shortcuts import redirect
 
 def custom_server_error(request):
     tipo = "500"
