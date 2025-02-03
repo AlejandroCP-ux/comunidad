@@ -93,7 +93,7 @@ class ComunidadAdmin(admin.ModelAdmin):
 
 @admin.register(Proyecto)
 class ProyectoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'creador', 'comunidad', 'fecha_creacion')
+    list_display = ('titulo', 'creador', 'comunidad', 'fecha_creacion','activada')
     prepopulated_fields = {"slug": ("titulo",)}
     list_filter = ('comunidad', 'fecha_creacion')
     search_fields = ('titulo', 'creador__username', 'comunidad__nombre')
@@ -103,6 +103,15 @@ class ProyectoAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
         return qs.filter(comunidad__administrador=request.user)
+    
+    def Activar(self, request, queryset):
+        if request.user.is_superuser:
+            updated = queryset.update(activada=True)
+            if updated:
+            #self.send_activation_email(queryset.first())
+                return updated
+        return queryset
+    actions = ['Activar',]
 
 @admin.register(Desafio)
 class DesafioAdmin(admin.ModelAdmin):
@@ -310,5 +319,23 @@ class SolicitudCrowuserAdmin(admin.ModelAdmin):
     rechazar_solicitud.short_description = "Rechazar solicitudes seleccionadas"
 
 admin.site.register(SolicitudCrowuser, SolicitudCrowuserAdmin)
-admin.site.register(Publicacion)
-#admin.site.register(Cuenta)
+@admin.register(Publicacion)
+class PublicacionAdmin(admin.ModelAdmin):
+    list_display = ('autor', 'fecha_publicacion', 'activada')
+    list_filter = ('comunidad', 'fecha_publicacion')
+    search_fields = ('autor', 'comunidad__nombre')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(autor=request.user)
+    
+    def Activar(self, request, queryset):
+        if request.user.is_superuser:
+            updated = queryset.update(activada=True)
+            if updated:
+            #self.send_activation_email(queryset.first())
+                return updated
+        return queryset
+    actions = ['Activar',]

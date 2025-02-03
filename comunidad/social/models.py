@@ -84,7 +84,7 @@ class Proyecto(models.Model):
     documentos = models.FileField(upload_to='comunidades/documentos_proyecto/', blank=True,default="")
     slug = models.SlugField(default="", null=False)
     tematica = models.ForeignKey(Tematica, on_delete=models.CASCADE, null=True)
-
+    activada = models.BooleanField(default=False)
     def __str__(self):
         return self.titulo
 
@@ -278,7 +278,8 @@ class Publicacion(models.Model):
     comunidad = models.ForeignKey(Comunidad, on_delete=models.CASCADE, null=True, blank=True)
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
     tematica = models.ForeignKey(Tematica, on_delete=models.CASCADE, null=True)
-
+    activada = models.BooleanField(default=False)
+    
     def likes(self):
         return Like.objects.filter(publicacion=self).count()
 

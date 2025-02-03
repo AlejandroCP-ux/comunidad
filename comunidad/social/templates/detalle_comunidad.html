@@ -280,7 +280,7 @@
                         </div>
                         {% else %}
                         <div style="min-width: 195px;margin-top: 1px">
-                            <a href="http://localhost:8000/admin" class="paradinos action-button boton-condicional">Administrar comunidad</a>
+                            <a href="http://innovacrece.uic.cu:81/admin/" class="paradinos action-button boton-condicional">Administrar comunidad</a>
                         </div>
                      {% endif %}
                     {% elif not es_miembro and comunidad.publica %}
@@ -335,7 +335,7 @@
                         <a style="margin-bottom: 10px; display: flex; justify-content: center;" href="{% url 'lista_campaigns' comunidad.slug %}" class="paradinos action-button boton-condicional">Ver Todas</a>
                         {% endif %}
                         {% if not is_superuser %}
-                            {% if es_admin or es_crowdsourcer %}    
+                            {% if  es_crowdsourcer %}    
                             <a style="display: flex; justify-content: center;" href="{% url 'crear_desafio' comunidad.slug %}" class="paradinos action-button">Solicitar campaña</a>
                             {% endif %}
                         {% endif %}
@@ -390,6 +390,7 @@
                 {% if publicaciones %}
 
                     {% for pub in publicaciones %}
+
                         <div class="publication">
                             <div class="publication-header">
                                 {% if pub.autor.perfilusuario.foto_perfil %}

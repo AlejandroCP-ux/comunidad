@@ -198,7 +198,7 @@ def detalle_comunidad(request, slug):
     publicaciones = Publicacion.objects.filter(
         Q(comunidad=comunidad) |
         Q(autor__in=[seguido.usuario for seguido in seguidos])
-    ).exclude(autor=user).exclude(tematica__in=no_me_gustan).distinct().order_by('-fecha_publicacion')
+    ).exclude(autor=user).exclude(tematica__in=no_me_gustan).exclude(activada=False).distinct().order_by('-fecha_publicacion')
     print(publicaciones)
     filtro = request.GET.get('filtro', 'todas')
     if filtro!=None and filtro != 'todas':
