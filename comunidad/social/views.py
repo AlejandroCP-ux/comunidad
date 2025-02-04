@@ -1205,10 +1205,7 @@ def editar_publicacion(request, pk):
     return render(request, 'editar_publicacion.html', {'form': form, 'publicacion': publicacion, 'tematicas': tematicas})
 
 def marketplace(request):
-    env = environ.Env()
-    environ.Env.read_env()
-    ENVIRONMENT=env
-    KEY = os.environ.get('KEY')
+    KEY = 'dd2e55b91798cc44e686f734f29a8b0f726975a6'
     payload = {
         'username': request.user.username,
         'exp': datetime.utcnow() + timedelta(minutes=1)  # Expira en 1 minuto
