@@ -1211,4 +1211,4 @@ def marketplace(request):
         'exp': datetime.utcnow() + timedelta(minutes=1)  # Expira en 1 minuto
     }
     token = jwt.encode(payload, KEY, algorithm='HS256')
-    return redirect(f"http://190.6.81.77/?token={token}")
+    return redirect(f"https://hubinabmarket.uic.cu/?token={token}")
